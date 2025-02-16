@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String
+# models.py
+from sqlalchemy import Column, Integer, String, ForeignKey
 from database import Base
 
 class Empresa(Base):
@@ -13,3 +14,14 @@ class Empresa(Base):
 
     def __repr__(self):
         return f"<Empresa(nome='{self.nome}', cnpj='{self.cnpj}')>"
+
+class ObrigacaoAcessoria(Base):
+    __tablename__ = "obrigacoes_acessorias"
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    nome = Column(String(100), nullable=False)
+    periodicidade = Column(String(20), nullable=False)  # valores esperados: "mensal", "trimestral", "anual"
+    empresa_id = Column(Integer, ForeignKey("empresas.id"), nullable=False)
+
+    def __repr__(self):
+        return f"<ObrigacaoAcessoria(nome='{self.nome}', periodicidade='{self.periodicidade}', empresa_id={self.empresa_id})>"
